@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class Categoria implements Serializable{
@@ -21,7 +23,8 @@ public class Categoria implements Serializable{
 	private Integer id;
 	private String nome;
 	
-	@ManyToMany(mappedBy = "categorias")
+	@JsonManagedReference		//carrega os produtos quando consultar a categoria
+	@ManyToMany(mappedBy = "categorias")	//avisa que o relacionamento muitos para muitos foi feito com o campo 'categorias' da outra tabela
 	private List<Produto> produtos = new ArrayList<>();
 	
 	public Categoria() {
