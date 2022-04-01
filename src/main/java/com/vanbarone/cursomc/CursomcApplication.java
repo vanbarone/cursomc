@@ -13,6 +13,7 @@ import com.vanbarone.cursomc.domain.Cidade;
 import com.vanbarone.cursomc.domain.Cliente;
 import com.vanbarone.cursomc.domain.Endereco;
 import com.vanbarone.cursomc.domain.Estado;
+import com.vanbarone.cursomc.domain.ItemPedido;
 import com.vanbarone.cursomc.domain.Pagamento;
 import com.vanbarone.cursomc.domain.PagamentoComBoleto;
 import com.vanbarone.cursomc.domain.PagamentoComCartao;
@@ -55,6 +56,9 @@ public class CursomcApplication implements CommandLineRunner{
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepo;
+	
+	//@Autowired
+	//private ItemPedidoRepository itemPedidoRepo;
 	
 	
 	public static void main(String[] args) {
@@ -123,6 +127,12 @@ public class CursomcApplication implements CommandLineRunner{
 		pedidoRepo.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepo.saveAll(Arrays.asList(pagto1, pagto2));
 				
+		ItemPedido item1 = new ItemPedido(ped1, p1, 1, 2000.0, 0.0);
+		ItemPedido item2 = new ItemPedido(ped1, p3, 2, 80.0, 0.0);
+		ItemPedido item3 = new ItemPedido(ped2, p2, 1, 800.0, 100.0);
+		
+		//itemPedidoRepo.saveAll(Arrays.asList(item1,item2,item3));
+		
 	}
 
 }
