@@ -1,5 +1,6 @@
 package com.vanbarone.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.vanbarone.cursomc.domain.Cidade;
 import com.vanbarone.cursomc.domain.Cliente;
 import com.vanbarone.cursomc.domain.Endereco;
 import com.vanbarone.cursomc.domain.Estado;
+import com.vanbarone.cursomc.domain.Pagamento;
+import com.vanbarone.cursomc.domain.PagamentoComBoleto;
+import com.vanbarone.cursomc.domain.PagamentoComCartao;
+import com.vanbarone.cursomc.domain.Pedido;
 import com.vanbarone.cursomc.domain.Produto;
+import com.vanbarone.cursomc.domain.enuns.EstadoPagamento;
 import com.vanbarone.cursomc.domain.enuns.TipoCliente;
 import com.vanbarone.cursomc.repositories.CategoriaRepository;
 import com.vanbarone.cursomc.repositories.CidadeRepository;
 import com.vanbarone.cursomc.repositories.ClienteRepository;
 import com.vanbarone.cursomc.repositories.EnderecoRepository;
 import com.vanbarone.cursomc.repositories.EstadoRepository;
+import com.vanbarone.cursomc.repositories.PagamentoRepository;
+import com.vanbarone.cursomc.repositories.PedidoRepository;
 import com.vanbarone.cursomc.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -42,6 +50,12 @@ public class CursomcApplication implements CommandLineRunner{
 	@Autowired
 	private ClienteRepository clienteRepo;
 	
+	@Autowired
+	private PedidoRepository pedidoRepo;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepo;
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -49,6 +63,8 @@ public class CursomcApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
 		
@@ -94,6 +110,18 @@ public class CursomcApplication implements CommandLineRunner{
 		Endereco end2 = new Endereco(null, "Av. Matos", "105" , "Sala 800", "Centro", "38777012", cli1, c2);
 		
 		enderecoRepo.saveAll(Arrays.asList(end1,end2));
+		
+		Pedido ped1 = new Pedido(null, sdf.parse( "30/09/2017 10:32"), cli1, end1);
+		Pedido ped2 = new Pedido(null,sdf.parse( "10/10/2017 19:35"), cli1, end2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 10:30"), null);
+		ped2.setPagamento(pagto2);
+		
+		pedidoRepo.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepo.saveAll(Arrays.asList(pagto1, pagto2));
 				
 	}
 
