@@ -26,6 +26,7 @@ import com.vanbarone.cursomc.repositories.CidadeRepository;
 import com.vanbarone.cursomc.repositories.ClienteRepository;
 import com.vanbarone.cursomc.repositories.EnderecoRepository;
 import com.vanbarone.cursomc.repositories.EstadoRepository;
+import com.vanbarone.cursomc.repositories.ItemPedidoRepository;
 import com.vanbarone.cursomc.repositories.PagamentoRepository;
 import com.vanbarone.cursomc.repositories.PedidoRepository;
 import com.vanbarone.cursomc.repositories.ProdutoRepository;
@@ -57,8 +58,8 @@ public class CursomcApplication implements CommandLineRunner{
 	@Autowired
 	private PagamentoRepository pagamentoRepo;
 	
-	//@Autowired
-	//private ItemPedidoRepository itemPedidoRepo;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepo;
 	
 	
 	public static void main(String[] args) {
@@ -131,7 +132,7 @@ public class CursomcApplication implements CommandLineRunner{
 		ItemPedido item2 = new ItemPedido(ped1, p3, 2, 80.0, 0.0);
 		ItemPedido item3 = new ItemPedido(ped2, p2, 1, 800.0, 100.0);
 		
-		//itemPedidoRepo.saveAll(Arrays.asList(item1,item2,item3));
+		itemPedidoRepo.saveAll(Arrays.asList(item1,item2,item3));
 		
 	}
 
